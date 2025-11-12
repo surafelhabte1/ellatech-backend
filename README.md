@@ -1,98 +1,169 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🧩 NestJS REST API – Users, Products & Transactions
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A scalable REST API built using **NestJS**, **TypeORM**, and **PostgreSQL** with reusable base service and controller patterns for clean and maintainable code.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 🚀 Setup & Installation
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
+## 1️⃣ Clone and Install Dependencies
 
 ```bash
-$ npm install
-```
 
-## Compile and run the project
+git clone https://github.com/surafelhabte1/ellatech-backend.git
+cd ellatech
+npm install
+
+```
+## 🧩 How the system organized
 
 ```bash
-# development
-$ npm run start
 
-# watch mode
-$ npm run start:dev
+BaseController & BaseService Explained
 
-# production mode
-$ npm run start:prod
+To avoid repeating CRUD logic (create, read, update, delete) across multiple modules, this project defines two reusable abstract classes:
+BaseService and BaseController.
+
+BaseController
+BaseController defines standard REST API endpoints that use the service methods.
+
+BaseService
+BaseService is a generic service that handles common database operations for any entity.
+
+What it does:
+
+- Provides default CRUD methods (create, findAll, findOne, update, remove)
+
+- Works with any entity by injecting the TypeORM repository
+
+- Reduces duplicate code in services like ProductsService, UsersService, etc.
+
+What it does:
+
+- Handles all CRUD endpoints automatically.
+
+- Returns consistent API responses with statusCode, message, and data.
+
+- Reduces repetitive controller code across modules.
+
+Extending & Overriding
+
+When you create a new module (e.g., ProductsController), you simply extend the BaseController and pass the right DTOs and service and add the function name specific to the controller and service
+
 ```
 
-## Run tests
+## 📚 API Endpoints
 
 ```bash
-# unit tests
-$ npm run test
 
-# e2e tests
-$ npm run test:e2e
+Users
 
-# test coverage
-$ npm run test:cov
+| Method   | Endpoint     | Description               |
+| -------- | ------------ | ------------------------- |
+| `POST`   | `/users`     | Create a new user         |
+| `GET`    | `/users`     | Get all users             |
+| `GET`    | `/users/:id` | Get a specific user by ID |
+| `PUT`    | `/users/:id` | Update user info          |
+| `DELETE` | `/users/:id` | Delete a user             |
+
+Request Example
+
+POST /users
+{
+  "name": "John Doe",
+  "email": "john@example.com"
+}
+
 ```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+
+Products
+
+| Method   | Endpoint                      | Description                   |
+| -------- | ----------------------------- | ----------------------------- |
+| `POST`   | `/products`                   | Create a new product          |
+| `GET`    | `/products`                   | List all products             |
+| `GET`    | `/products/:id`               | Get a product by ID           |
+| `GET`    | `/products/status/:productId` | Get a product’s status        |
+| `PUT`    | `/products/adjust/:productId` | Update or adjust product info |
+| `DELETE` | `/products/:id`               | Delete a product              |
+
+Request Example
+
+POST /products
+{
+  "title": "Laptop",
+  "price": 1200,
+  "status": "available"
+}
+
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+```bash
 
-## Resources
+Transactions
 
-Check out a few resources that may come in handy when working with NestJS:
+| Method   | Endpoint            | Description                            |
+| -------- | ------------------- | -------------------------------------- |
+| `POST`   | `/transactions`     | Create a transaction (purchase record) |
+| `GET`    | `/transactions`     | Get all transactions                   |
+| `GET`    | `/transactions/:id` | Get a transaction by ID                |
+| `DELETE` | `/transactions/:id` | Delete a transaction record            |
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Request Example
 
-## Support
+POST /transactions
+{
+  "userId": 1,
+  "productId": 3,
+  "quantity": 2
+}
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```
 
-## Stay in touch
+```bash
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Example Response Format
 
-## License
+Success
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+{
+  "statusCode": 200,
+  "message": "Success",
+  "data": { ... }
+}
+
+Error
+
+{
+  "statusCode": 500,
+  "message": "Error",
+  "error": "Error message details"
+}
+
+```
+
+## 🧩 Tech Stack
+
+```bash
+NestJS – Modular Node.js framework
+
+TypeORM – ORM for PostgreSQL
+
+PostgreSQL – Relational DB
+
+Class-Validator – Validation layer for DTOs
+
+TypeScript – Type-safe development
+
+```
+
+## 👨‍💻 Author
+
+```bash
+Surafe habte
+
+Software Developer from Ethiopia 🇪🇹
+Passionate about clean code, scalable systems, and backend excellence
+```
