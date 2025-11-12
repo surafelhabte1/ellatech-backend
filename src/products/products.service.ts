@@ -1,35 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Products } from './entities/product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { Product } from './entities/product.entity';
+import { BaseService } from '../bases/base.service';
 
 @Injectable()
-export class ProductsService {
+export class ProductsService extends BaseService<
+  Products,
+  CreateProductDto,
+  UpdateProductDto
+> {
   constructor(
-    @InjectRepository(Product)
-    private readonly productRepo: Repository<Product>,
-  ) {}
-
-  create(dto: CreateProductDto) {
-    const product = this.productRepo.create(dto);
-    return this.productRepo.save(product);
+    @InjectRepository(Products)
+    private readonly productRepo: Repository<Products>,
+  ) {
+    super(productRepo);
   }
 
-  findAll() {
-    return this.productRepo.find();
-  }
-
-  findOne(id: number) {
-    return this.productRepo.findOneBy({ id });
-  }
-
-  update(id: number, dto: UpdateProductDto) {
-    return this.productRepo.update(id, dto);
-  }
-
-  remove(id: number) {
-    return this.productRepo.delete(id);
+  getStatus(productId: number) {
+    return this.productRepo.findOne({
+      where: { id: productId },
+      select: ['id', 'status'],
+    });
   }
 }
