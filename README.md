@@ -15,6 +15,7 @@ cd ellatech
 npm install
 
 ```
+
 ## 🧩 How the system organized
 
 ```bash
@@ -156,6 +157,18 @@ PostgreSQL – Relational DB
 Class-Validator – Validation layer for DTOs
 
 TypeScript – Type-safe development
+
+```
+
+### Commands
+
+```bash
+To build and run Docker
+- sudo docker-compose build --no-cache
+- sudo docker-compose up
+
+To DB migration
+- npm run migration:run
 
 ```
 
