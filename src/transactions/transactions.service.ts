@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
-import { Transactions } from './entities/transactions.entity';
 import { BaseService } from 'src/bases/base.service';
+import { Transactions } from 'src/entities/transactions.entity';
 
 @Injectable()
 export class TransactionsService extends BaseService<
