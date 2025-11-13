@@ -1,17 +1,17 @@
 import { DataSource } from 'typeorm';
-import { Products } from './products/entities/product.entity';
-import { Users } from './users/entities/user.entity';
-import { Transactions } from './transactions/entities/transactions.entity';
+import { ConfigService } from '@nestjs/config';
+
+const configService = new ConfigService();
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  host: 'localhost',
-  port: 5432,
-  username: 'postgres',
-  password: 'Abcd@1234',
-  database: 'ellatech',
+  host: configService.get('DB_HOST'),
+  port: parseInt(configService.get('DB_PORT') || '5432', 10),
+  username: configService.get('DB_USER'),
+  password: configService.get('DB_PASS'),
+  database: configService.get('DB_NAME'),
+  entities: ['src/**/*.entities{.ts,.js}'],
+  migrations: ['src/migrations/*{.ts,.js}'],
   synchronize: false,
   logging: true,
-  entities: [Products, Users, Transactions],
-  migrations: ['src/migrations/*.ts'],
 });
