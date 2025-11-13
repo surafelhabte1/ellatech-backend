@@ -8,8 +8,6 @@ export class CreateProductDto {
   @Min(0)
   price: number;
 
- 
-
   @IsOptional()
   @IsString()
   status?: string;

@@ -1,5 +1,5 @@
 import { ObjectLiteral, Repository, DeepPartial, UpdateResult, DeleteResult } from 'typeorm';
-import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity.js';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
 export abstract class BaseService<
   Entity extends ObjectLiteral,
